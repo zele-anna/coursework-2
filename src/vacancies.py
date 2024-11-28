@@ -1,7 +1,6 @@
-import json
-
 class Vacancy:
     """Класс для создания объектов-вакансий."""
+
     vacancy_id: int
     name: str
     link: str
@@ -35,11 +34,11 @@ class Vacancy:
             if item["salary"] is None:
                 salary = "Зарплата не указана"
             elif item["salary"]["from"] and item["salary"]["to"]:
-                salary = f'{item["salary"]["from"]}-{item["salary"]["to"]} {item["salary"]["currency"]} {"на руки" if item["salary"]["gross"] == False else "до налога"}'
+                salary = f'{item["salary"]["from"]}-{item["salary"]["to"]} {item["salary"]["currency"]}'
             elif item["salary"]["from"]:
-                salary = f'От {item["salary"]["from"]} {item["salary"]["currency"]} {"на руки" if item["salary"]["gross"] == False else "до налога"}'
+                salary = f'От {item["salary"]["from"]} {item["salary"]["currency"]}'
             elif item["salary"]["to"]:
-                salary = f'До {item["salary"]["to"]} {item["salary"]["currency"]} {"на руки" if item["salary"]["gross"] == False else "до налога"}'
+                salary = f'До {item["salary"]["to"]} {item["salary"]["currency"]}'
 
             # Инициализация объектов класса и добавление их в список объектов
             new_vacancy = cls(
@@ -54,3 +53,16 @@ class Vacancy:
             )
             obj_list.append(new_vacancy)
         return obj_list
+
+    def object_to_dict(self) -> dict:
+        """Метод для преобразования объекта класса в словарь значений."""
+        vacancy_dict = dict()
+        vacancy_dict["vacancy_id"] = self.vacancy_id
+        vacancy_dict["name"] = self.name
+        vacancy_dict["link"] = self.link
+        vacancy_dict["salary"] = self.salary
+        vacancy_dict["employer"] = self.employer
+        vacancy_dict["requirement"] = self.requirement
+        vacancy_dict["employment"] = self.employment
+        vacancy_dict["schedule"] = self.schedule
+        return vacancy_dict

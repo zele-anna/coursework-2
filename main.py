@@ -1,14 +1,15 @@
+from src.file_manager import JSONSaver
 from src.parsers import HeadHunterAPI
 from src.vacancies import Vacancy
 
 # Создание экземпляра класса для работы с API сайтов с вакансиями
-hh_api = HeadHunterAPI()
+# hh_api = HeadHunterAPI()
 
 # Получение вакансий с hh.ru в формате JSON
-hh_vacancies = hh_api.get_vacancies("тестировщик квартир")
+# hh_vacancies = hh_api.get_vacancies("тестировщик квартир")
 
 # Преобразование набора данных из JSON в список объектов
-vacancies_list = Vacancy.cast_to_object_list(hh_vacancies)
+# vacancies_list = Vacancy.cast_to_object_list(hh_vacancies)
 
 # Пример работы контструктора класса с одной вакансией
 vacancy = Vacancy(123, "Python Developer", "<https://hh.ru/vacancy/123456>", "100 000-150 000 руб.", "Яндекс", "Требования: опыт работы от 3 лет...", "Частичная занятость", "Удаленная работа")
@@ -37,24 +38,35 @@ vacancy = Vacancy(123, "Python Developer", "<https://hh.ru/vacancy/123456>", "10
 
 if __name__ == "__main__":
     # user_interaction()
-    for item1 in hh_vacancies[16:19]:
-        print(item1["salary"])
-    for item in vacancies_list[16:19]:
-        print("\nВакансия")
-        print(item.vacancy_id)
-        print(item.name)
-        print(item.link)
-        print(item.salary)
-        print(item.employer)
-        print(item.requirement)
-        print(item.employment)
-        print(item.schedule)
+
+    # for item1 in hh_vacancies[16:19]:
+    #     print(item1["salary"])
+    # for item in vacancies_list[16:19]:
+    #     print("\nВакансия")
+    #     print(item.vacancy_id)
+    #     print(item.name)
+    #     print(item.link)
+    #     print(item.salary)
+    #     print(item.employer)
+    #     print(item.requirement)
+    #     print(item.employment)
+    #     print(item.schedule)
 
     # print(vacancy.vacancy_id)
     # print(vacancy.name)
+    # vacancy_dict = vacancy.object_to_dict()
+    # print(vacancy_dict)
     # print(vacancy.link)
     # print(vacancy.salary)
     # print(vacancy.employer)
     # print(vacancy.requirement)
     # print(vacancy.employment)
     # print(vacancy.schedule)
+    json_saver = JSONSaver()
+    # json_saver.add_vacancy(vacancy)
+    vacancy_3 = Vacancy(125, "Python Developer", "<https://hh.ru/vacancy/123456>", "100 000-150 000 руб.", "Яндекс",
+                      "Требования: опыт работы от 3 лет...", "Частичная занятость", "Удаленная работа")
+    json_saver.add_vacancy(vacancy_3)
+    json_saver.delete_vacancy(vacancy_3)
+
+
