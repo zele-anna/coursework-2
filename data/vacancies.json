@@ -1,3 +1,28 @@
 {
-    "items": []
+    "items": [
+        {
+            "vacancy_id": 125,
+            "name": "Python Developer",
+            "link": "<https://hh.ru/vacancy/123456>",
+            "salary_from": "100000",
+            "salary_to": "150000",
+            "salary_range": "100000-150000 руб.",
+            "employer": "Яндекс",
+            "requirement": "Требования: опыт работы от 3 лет...",
+            "employment": "Частичная занятость",
+            "schedule": "Удаленная работа"
+        },
+        {
+            "vacancy_id": 121,
+            "name": "Python Developer",
+            "link": "<https://hh.ru/vacancy/123456>",
+            "salary_from": "100000",
+            "salary_to": "150000",
+            "salary_range": "100 000-150 000 руб.",
+            "employer": "Яндекс",
+            "requirement": "Требования: опыт работы от 3 лет...",
+            "employment": "Частичная занятость",
+            "schedule": "Удаленная работа"
+        }
+    ]
 }

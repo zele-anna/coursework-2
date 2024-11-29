@@ -1,5 +1,6 @@
 import json
 from abc import ABC, abstractmethod
+from typing import Any
 
 from src.vacancies import Vacancy
 
@@ -10,17 +11,17 @@ class FileManager(ABC):
     path: str
 
     @abstractmethod
-    def get_vacancies_from_file(self):
+    def get_vacancies_from_file(self) -> None:
         """Абстрактный метод получения данных о вакансиях из файла."""
         pass
 
     @abstractmethod
-    def add_vacancy(self, vacancy):
+    def add_vacancy(self, vacancy: Any) -> None:
         """Абстрактный метод добавления объекта класса Vacancy в файл."""
         pass
 
     @abstractmethod
-    def delete_vacancy(self, vacancy):
+    def delete_vacancy(self, vacancy: Any) -> None:
         """Абстрактный метод удаления объекта класса Vacancy из файла."""
         pass
 
@@ -28,20 +29,21 @@ class FileManager(ABC):
 class JSONSaver(FileManager):
     """Класс для работы с данными о вакансиях, хранимых в файлах формата JSON."""
 
-    def __init__(self):
+    def __init__(self) -> None:
+        """Инициализатор JSONSaver."""
         self.path = "data/vacancies.json"
 
-    def get_vacancies_from_file(self):
+    def get_vacancies_from_file(self) -> Any:
         """Получение списка вакансий из файла JSON."""
         with open(self.path, "r", encoding="UTF-8") as file:
             vacancy_list = json.load(file)
         return vacancy_list
 
-    def add_vacancy(self, vacancy):
+    def add_vacancy(self, vacancy: Any) -> None:
         """Добавление данных объекта класса Vacancy в файл JSON."""
         # Проверка на принадлежность переменной классу
         if isinstance(vacancy, Vacancy):
-            data_to_save = dict()
+            data_to_save: dict = dict()
             data_to_save["items"] = list()
             vacancy_to_add = vacancy.object_to_dict()
             duplicate = False
@@ -70,11 +72,11 @@ class JSONSaver(FileManager):
         else:
             print("Переданный объект не является объектом класса Vacancy.")
 
-    def delete_vacancy(self, vacancy):
+    def delete_vacancy(self, vacancy: Any) -> None:
         """Удаление вакансии из файла JSON."""
         # Проверка принадлежности переменной классу
         if isinstance(vacancy, Vacancy):
-            data_to_save = dict()
+            data_to_save: dict = dict()
             data_to_save["items"] = list()
             vacancy_to_delete = vacancy.object_to_dict()
             is_found = False

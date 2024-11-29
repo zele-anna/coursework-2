@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import Any
 
 import requests
 
@@ -7,7 +8,7 @@ class Parser(ABC):
     """Абстрактный класс для работы с API."""
 
     @abstractmethod
-    def get_vacancies(self, keyword):
+    def get_vacancies(self, keyword: str) -> None:
         """Абстрактный метод для загрузки данных из API."""
         pass
 
@@ -19,22 +20,26 @@ class HeadHunterAPI(Parser):
         """Инициализация объекта обращения к API HeadHunter."""
         self.__url = "https://api.hh.ru/vacancies"
         self.__headers = {"User-Agent": "HH-User-Agent"}
-        self.__params = {"text": "", "page": 0, "per_page": 100}
-        self.__vacancies = []
+        self.__params: Any = {"text": "", "page": 0, "per_page": 100}
+        self.__vacancies: list = []
         # super().__init__(file_worker)
 
-    def get_vacancies(self, keyword: str) -> list:
+    def get_vacancies(self, keyword: str) -> Any:
         """Метод загрузки данных из API по ключевому слову."""
         self.__params["text"] = keyword
         while self.__params.get("page") != 20:
             response = requests.get(self.__url, headers=self.__headers, params=self.__params)
-            vacancies = response.json()["items"]
-            self.__vacancies.extend(vacancies)
-            self.__params["page"] += 1
+            if response.status_code == 200:
+                vacancies = response.json()["items"]
+                self.__vacancies.extend(vacancies)
+                self.__params["page"] += 1
+            else:
+                print(f"Ошибка работы с API, код {response.status_code}")
         return self.__vacancies
 
     @property
-    def vacancies(self):
+    def vacancies(self) -> Any:
+        """Геттер показателя __vacancies"""
         return self.__vacancies
 
 

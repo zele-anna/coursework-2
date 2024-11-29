@@ -1,25 +1,51 @@
+import re
+
+
 class Vacancy:
     """Класс для создания объектов-вакансий."""
 
     vacancy_id: int
     name: str
     link: str
-    salary: str
+    salary_from: float | None
+    salary_to: float | None
+    salary_range: str
     employer: str
     requirement: str
     employment: str
     schedule: str
 
-    def __init__(self, vacancy_id, name, link, salary, employer, requirement, employment, schedule):
+    def __init__(
+        self,
+        vacancy_id: int,
+        name: str,
+        link: str,
+        salary: str | dict,
+        employer: str,
+        requirement: str,
+        employment: str,
+        schedule: str,
+    ) -> None:
         """Метод инициализации объектов класса Vacancy."""
-        self.vacancy_id = vacancy_id
-        self.name = name
-        self.link = link
-        self.salary = salary
-        self.employer = employer
-        self.requirement = requirement
-        self.employment = employment
-        self.schedule = schedule
+        salary_from = None
+        salary_to = None
+        salary_range = ""
+        if salary is None:
+            salary_range = "Зарплата не указана"
+        elif type(salary) is dict:
+            salary_from, salary_to, salary_range = Vacancy.get_salary_data_from_dict(salary)
+        elif type(salary) is str:
+            salary_from, salary_to, salary_range = Vacancy.get_salary_data_from_str(salary)
+        self.vacancy_id: int = vacancy_id
+        self.name: str = name
+        self.link: str = link
+        self.salary_from: int = salary_from
+        self.salary_to: int = salary_to
+        self.salary_range: str = salary_range
+        self.employer: str = employer
+        self.requirement: str = requirement
+        self.employment: str = employment
+        self.schedule: str = schedule
 
     @classmethod
     def cast_to_object_list(cls, data: list) -> list:
@@ -28,24 +54,12 @@ class Vacancy:
         obj_list = list()
 
         for item in data:
-
-            # Определение формата вывода данных о зарплате
-            salary = ""
-            if item["salary"] is None:
-                salary = "Зарплата не указана"
-            elif item["salary"]["from"] and item["salary"]["to"]:
-                salary = f'{item["salary"]["from"]}-{item["salary"]["to"]} {item["salary"]["currency"]}'
-            elif item["salary"]["from"]:
-                salary = f'От {item["salary"]["from"]} {item["salary"]["currency"]}'
-            elif item["salary"]["to"]:
-                salary = f'До {item["salary"]["to"]} {item["salary"]["currency"]}'
-
             # Инициализация объектов класса и добавление их в список объектов
             new_vacancy = cls(
                 item["id"],
                 item["name"],
                 item["alternate_url"],
-                salary,
+                item["salary"],
                 item["employer"]["name"],
                 item["snippet"]["requirement"],
                 item["employment"]["name"],
@@ -56,13 +70,50 @@ class Vacancy:
 
     def object_to_dict(self) -> dict:
         """Метод для преобразования объекта класса в словарь значений."""
-        vacancy_dict = dict()
+        vacancy_dict: dict = dict()
         vacancy_dict["vacancy_id"] = self.vacancy_id
         vacancy_dict["name"] = self.name
         vacancy_dict["link"] = self.link
-        vacancy_dict["salary"] = self.salary
+        vacancy_dict["salary_from"] = self.salary_from
+        vacancy_dict["salary_to"] = self.salary_to
+        vacancy_dict["salary_range"] = self.salary_range
         vacancy_dict["employer"] = self.employer
         vacancy_dict["requirement"] = self.requirement
         vacancy_dict["employment"] = self.employment
         vacancy_dict["schedule"] = self.schedule
         return vacancy_dict
+
+    @staticmethod
+    def get_salary_data_from_dict(salary_data: dict) -> tuple:
+        """Определение значений по зарплате из словаря: от, до и диапазон."""
+        salary_from = None
+        salary_to = None
+        salary_range = ""
+        if salary_data is None:
+            salary_range = "Зарплата не указана"
+        elif salary_data["from"] and salary_data["to"]:
+            salary_from = salary_data["from"]
+            salary_to = salary_data["to"]
+            salary_range = f'{salary_data["from"]}-{salary_data["to"]} {salary_data["currency"]}'
+        elif salary_data["from"]:
+            salary_from = salary_data["from"]
+            salary_range = f'От {salary_data["from"]} {salary_data["currency"]}'
+        elif salary_data["to"]:
+            salary_to = salary_data["to"]
+            salary_range = f'До {salary_data["to"]} {salary_data["currency"]}'
+        return salary_from, salary_to, salary_range
+
+    @staticmethod
+    def get_salary_data_from_str(salary_data: str) -> tuple:
+        """Определение значений по зарплате из строки: от, до и диапазон."""
+        salary_from = None
+        salary_to = None
+        salary_range = salary_data
+        salary_data = salary_data.replace(" ", "")
+        if "-" in salary_data:
+            salary_from, salary_to = re.findall(r"\d+", salary_data, flags=0)
+        elif "До".lower() in salary_data.lower():
+            salary_to = re.findall(r"\d+", salary_data, flags=0)[0]
+        elif "От".lower() in salary_data.lower():
+            salary_from = re.findall(r"\d+", salary_data, flags=0)[0]
+        return salary_from, salary_to, salary_range
