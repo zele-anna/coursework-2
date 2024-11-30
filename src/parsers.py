@@ -1,16 +1,8 @@
-from abc import ABC, abstractmethod
 from typing import Any
 
 import requests
 
-
-class Parser(ABC):
-    """Абстрактный класс для работы с API."""
-
-    @abstractmethod
-    def get_vacancies(self, keyword: str) -> None:
-        """Абстрактный метод для загрузки данных из API."""
-        pass
+from src.base_parsers import Parser
 
 
 class HeadHunterAPI(Parser):

@@ -35,8 +35,11 @@ class JSONSaver(FileManager):
 
     def get_vacancies_from_file(self) -> Any:
         """Получение списка вакансий из файла JSON."""
-        with open(self.path, "r", encoding="UTF-8") as file:
-            vacancy_list = json.load(file)
+        try:
+            with open(self.path, "r", encoding="UTF-8") as file:
+                vacancy_list = json.load(file)
+        except FileNotFoundError:
+            print("Файл не найден.")
         return vacancy_list
 
     def add_vacancy(self, vacancy: Any) -> None:
