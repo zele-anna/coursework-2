@@ -1,10 +1,12 @@
+from typing import Any
+
 import pytest
 
 from src.vacancies import Vacancy
 
 
 @pytest.fixture
-def hh_data():
+def hh_data() -> list:
     return [
         {
             "id": "111862583",
@@ -190,7 +192,7 @@ def hh_data():
 
 
 @pytest.fixture
-def hh_data_2():
+def hh_data_2() -> list:
     return [
         {
             "id": "111862583",
@@ -376,7 +378,7 @@ def hh_data_2():
 
 
 @pytest.fixture
-def hh_response():
+def hh_response() -> dict:
     return {
         "items": [
             {
@@ -564,7 +566,7 @@ def hh_response():
 
 
 @pytest.fixture
-def vacancy_object():
+def vacancy_object() -> Any:
     return Vacancy(
         "123",
         "Python Developer",
@@ -578,7 +580,26 @@ def vacancy_object():
 
 
 @pytest.fixture
-def vacancy_dict():
+def vacancy_object_2() -> Any:
+    return Vacancy(
+        "124",
+        "Системный аналитик",
+        "<https://hh.ru/vacancy/123457>",
+        "До 100000 руб.",
+        "ООО Ромашка",
+        "Требования: опыт работы от 3 лет...",
+        "Полная занятость",
+        "Удаленная работа",
+    )
+
+
+@pytest.fixture
+def vacancies_list(vacancy_object: Any, vacancy_object_2: Any) -> list:
+    return [vacancy_object, vacancy_object_2]
+
+
+@pytest.fixture
+def vacancy_dict() -> dict:
     return {
         "vacancy_id": "123",
         "name": "Python Developer",
@@ -594,7 +615,7 @@ def vacancy_dict():
 
 
 @pytest.fixture
-def file_data():
+def file_data() -> dict:
     return {
         "items": [
             {

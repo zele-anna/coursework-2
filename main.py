@@ -1,5 +1,5 @@
-from src.file_manager import JSONSaver
-from src.parsers import HeadHunterAPI
+from src.hh_parser import HeadHunterAPI
+from src.json_saver import JSONSaver
 from src.utils import filter_vacancies, get_top_vacancies, get_vacancies_by_salary, print_vacancies, sort_vacancies
 from src.vacancies import Vacancy
 
@@ -8,7 +8,17 @@ vacancy = Vacancy(
     "123",
     "Python Developer",
     "<https://hh.ru/vacancy/123456>",
-    "100000-150000 руб.",
+    "10000-1500000 руб.",
+    "Яндекс",
+    "Требования: опыт работы от 3 лет...",
+    "Частичная занятость",
+    "Удаленная работа",
+)
+vacancy_3 = Vacancy(
+    "121",
+    "Python Developer",
+    "<https://hh.ru/vacancy/123456>",
+    "100 000-150 000 руб.",
     "Яндекс",
     "Требования: опыт работы от 3 лет...",
     "Частичная занятость",
@@ -28,30 +38,25 @@ print(vacancy.schedule)
 
 # Преобразование объекта класса Vacancy в словарь
 vacancy_dict = vacancy.object_to_dict()
-print(vacancy_dict)
 
 # Пример работы с файлами
 json_saver = JSONSaver()
-vacancy_3 = Vacancy(
-    "121",
-    "Python Developer",
-    "<https://hh.ru/vacancy/123456>",
-    "100 000-150 000 руб.",
-    "Яндекс",
-    "Требования: опыт работы от 3 лет...",
-    "Частичная занятость",
-    "Удаленная работа",
-)
-json_saver.add_vacancy(vacancy_3)
-print(len(json_saver.get_vacancies_from_file()))
-json_saver.delete_vacancy(vacancy_3)
-print(len(json_saver.get_vacancies_from_file()))
-
+json_saver_2 = JSONSaver("user_vacancies.json")
 
 # Сохранение информации о вакансиях в файл
-json_saver = JSONSaver()
 json_saver.add_vacancy(vacancy)
+json_saver_2.add_vacancy(vacancy_3)
+json_saver.get_vacancies_from_file()
+json_saver_2.get_vacancies_from_file()
 json_saver.delete_vacancy(vacancy)
+json_saver_2.delete_vacancy(vacancy_3)
+
+# Сравнение вакансий по зарплате
+print(vacancy == vacancy_3)
+print(vacancy > vacancy_3)
+print(vacancy >= vacancy_3)
+print(vacancy < vacancy_3)
+print(vacancy <= vacancy_3)
 
 
 # Функция для взаимодействия с пользователем
@@ -64,7 +69,6 @@ def user_interaction() -> None:
 
     # Получение вакансий с hh.ru в формате JSON
     hh_vacancies = hh_api.get_vacancies(search_query)
-    print(hh_vacancies[:10]["salary"])
 
     # Преобразование набора данных из JSON в список объектов
     vacancies_list = Vacancy.cast_to_object_list(hh_vacancies)

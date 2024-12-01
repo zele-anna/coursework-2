@@ -1,19 +1,22 @@
 import re
+from typing import Any
 
 
 class Vacancy:
     """Класс для создания объектов-вакансий."""
 
-    vacancy_id: str
-    name: str
-    link: str
-    salary_from: float | None
-    salary_to: float | None
-    salary_range: str
-    employer: str
-    requirement: str
-    employment: str
-    schedule: str
+    __slots__ = (
+        "vacancy_id",
+        "name",
+        "link",
+        "salary_from",
+        "salary_to",
+        "salary_range",
+        "employer",
+        "requirement",
+        "employment",
+        "schedule",
+    )
 
     def __init__(
         self,
@@ -33,9 +36,9 @@ class Vacancy:
         if salary is None:
             salary_range = "Зарплата не указана"
         elif type(salary) is dict:
-            salary_from, salary_to, salary_range = Vacancy.get_salary_data_from_dict(salary)
+            salary_from, salary_to, salary_range = Vacancy.__get_salary_data_from_dict(salary)
         elif type(salary) is str:
-            salary_from, salary_to, salary_range = Vacancy.get_salary_data_from_str(salary)
+            salary_from, salary_to, salary_range = Vacancy.__get_salary_data_from_str(salary)
         self.vacancy_id: str = vacancy_id
         self.name: str = name
         self.link: str = link
@@ -46,6 +49,85 @@ class Vacancy:
         self.requirement: str = requirement
         self.employment: str = employment
         self.schedule: str = schedule
+
+    def __eq__(self, other: Any) -> bool:
+        """Сравнение вакансий по зарплате: вакансия 1 = вакансия 2."""
+        if isinstance(other, Vacancy):
+            if self.salary_to > 0 and other.salary_to > 0:
+                return self.salary_to == other.salary_to
+            elif self.salary_to == 0 and other.salary_from > 0:
+                return self.salary_from == other.salary_from
+            elif self.salary_to > 0 and other.salary_from == 0:
+                return self.salary_from == other.salary_from
+            else:
+                return True
+        else:
+            print("Объект сравнения не является объектом класса Vacancy.")
+            return False
+
+    def __gt__(self, other: Any) -> bool:
+        """Сравнение вакансий по зарплате: вакансия 1 > вакансии 2."""
+        if isinstance(other, Vacancy):
+            if self.salary_to > 0 and other.salary_to > 0:
+                return self.salary_to > other.salary_to
+            elif self.salary_to == 0 and other.salary_from > 0:
+                return self.salary_from > other.salary_from
+            elif self.salary_to > 0 and other.salary_from == 0:
+                return self.salary_from > other.salary_from
+            else:
+                return False
+        else:
+            print("Объект сравнения не является объектом класса Vacancy.")
+            return False
+
+    def __ge__(self, other: Any) -> bool:
+        """Сравнение вакансий по зарплате: вакансия 1 >= вакансии 2."""
+        if isinstance(other, Vacancy):
+            if self.salary_to > 0 and other.salary_to > 0:
+                return self.salary_to >= other.salary_to
+            elif self.salary_to == 0 and other.salary_from > 0:
+                return self.salary_from >= other.salary_from
+            elif self.salary_to > 0 and other.salary_from == 0:
+                return self.salary_from >= other.salary_from
+            else:
+                return False
+        else:
+            print("Объект сравнения не является объектом класса Vacancy.")
+            return False
+
+    def __lt__(self, other: Any) -> bool:
+        """Сравнение вакансий по зарплате: вакансия 1 < вакансии 2."""
+        if isinstance(other, Vacancy):
+            if self.salary_to > 0 and other.salary_to > 0:
+                return self.salary_to < other.salary_to
+            elif self.salary_to == 0 and other.salary_from > 0:
+                return self.salary_from < other.salary_from
+            elif self.salary_to > 0 and other.salary_from == 0:
+                return self.salary_from < other.salary_from
+            else:
+                return False
+        else:
+            print("Объект сравнения не является объектом класса Vacancy.")
+            return False
+
+    def __le__(self, other: Any) -> bool:
+        """Сравнение вакансий по зарплате: вакансия 1 <= вакансии 2."""
+        if isinstance(other, Vacancy):
+            if self.salary_to > 0 and other.salary_to > 0:
+                return self.salary_to <= other.salary_to
+            elif self.salary_to == 0 and other.salary_from > 0:
+                return self.salary_from <= other.salary_from
+            elif self.salary_to > 0 and other.salary_from == 0:
+                return self.salary_from <= other.salary_from
+            else:
+                return False
+        else:
+            print("Объект сравнения не является объектом класса Vacancy.")
+            return False
+
+    def __hash__(self: Any) -> Any:
+        """Метод настройки хеширования объектов класса Vacancy."""
+        return hash((self.vacancy_id, self.name))
 
     @classmethod
     def cast_to_object_list(cls, data: list) -> list:
@@ -84,7 +166,7 @@ class Vacancy:
         return vacancy_dict
 
     @staticmethod
-    def get_salary_data_from_dict(salary_data: dict) -> tuple:
+    def __get_salary_data_from_dict(salary_data: dict) -> tuple:
         """Определение значений по зарплате из словаря: от, до и диапазон."""
         salary_from = 0
         salary_to = 0
@@ -102,7 +184,7 @@ class Vacancy:
         return salary_from, salary_to, salary_range
 
     @staticmethod
-    def get_salary_data_from_str(salary_data: str) -> tuple:
+    def __get_salary_data_from_str(salary_data: str) -> tuple:
         """Определение значений по зарплате из строки: от, до и диапазон."""
         salary_from = 0
         salary_to = 0

@@ -2,7 +2,7 @@ from typing import Any
 
 import requests
 
-from src.base_parsers import Parser
+from src.base_parser import Parser
 
 
 class HeadHunterAPI(Parser):

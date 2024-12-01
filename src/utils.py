@@ -6,9 +6,10 @@ def filter_vacancies(vacancies_list: list, filter_words: list) -> list:
     filtered_vacancies_set = set()
     for vacancy in vacancies_list:
         for word in filter_words:
-            if word.lower() in vacancy.name.lower() or word.lower() in vacancy.employer.lower():
+            vacancy_dict = vacancy.object_to_dict()
+            if word.lower() in vacancy_dict["name"].lower() or word.lower() in vacancy_dict["employer"].lower():
                 filtered_vacancies_set.add(vacancy)
-            elif vacancy.requirement and word.lower() in vacancy.requirement.lower():
+            elif vacancy.requirement and word.lower() in vacancy_dict["requirement"].lower():
                 filtered_vacancies_set.add(vacancy)
     filtered_vacancies = list(filtered_vacancies_set)
     return filtered_vacancies
