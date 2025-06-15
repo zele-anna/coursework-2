@@ -25,38 +25,38 @@ vacancy_3 = Vacancy(
     "Удаленная работа",
 )
 
-print(vacancy.vacancy_id)
-print(vacancy.name)
-print(vacancy.link)
-print(vacancy.salary_from)
-print(vacancy.salary_to)
-print(vacancy.salary_range)
-print(vacancy.employer)
-print(vacancy.requirement)
-print(vacancy.employment)
-print(vacancy.schedule)
+# print(vacancy.vacancy_id)
+# print(vacancy.name)
+# print(vacancy.link)
+# print(vacancy.salary_from)
+# print(vacancy.salary_to)
+# print(vacancy.salary_range)
+# print(vacancy.employer)
+# print(vacancy.requirement)
+# print(vacancy.employment)
+# print(vacancy.schedule)
 
 # Преобразование объекта класса Vacancy в словарь
-vacancy_dict = vacancy.object_to_dict()
+# vacancy_dict = vacancy.object_to_dict()
 
 # Пример работы с файлами
-json_saver = JSONSaver()
-json_saver_2 = JSONSaver("user_vacancies.json")
+# json_saver = JSONSaver()
+# json_saver_2 = JSONSaver("user_vacancies.json")
 
 # Сохранение информации о вакансиях в файл
-json_saver.add_vacancy(vacancy)
-json_saver_2.add_vacancy(vacancy_3)
-json_saver.get_vacancies_from_file()
-json_saver_2.get_vacancies_from_file()
-json_saver.delete_vacancy(vacancy)
-json_saver_2.delete_vacancy(vacancy_3)
+# json_saver.add_vacancy(vacancy)
+# json_saver_2.add_vacancy(vacancy_3)
+# json_saver.get_vacancies_from_file()
+# json_saver_2.get_vacancies_from_file()
+# json_saver.delete_vacancy(vacancy)
+# json_saver_2.delete_vacancy(vacancy_3)
 
 # Сравнение вакансий по зарплате
-print(vacancy == vacancy_3)
-print(vacancy > vacancy_3)
-print(vacancy >= vacancy_3)
-print(vacancy < vacancy_3)
-print(vacancy <= vacancy_3)
+# print(vacancy == vacancy_3)
+# print(vacancy > vacancy_3)
+# print(vacancy >= vacancy_3)
+# print(vacancy < vacancy_3)
+# print(vacancy <= vacancy_3)
 
 
 # Функция для взаимодействия с пользователем
