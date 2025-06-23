@@ -1,3 +1,4 @@
+from src.csv_saver import CSVSaver
 from src.hh_parser import HeadHunterAPI
 from src.json_saver import JSONSaver
 from src.utils import filter_vacancies, get_top_vacancies, get_vacancies_by_salary, print_vacancies, sort_vacancies
@@ -39,17 +40,29 @@ vacancy_3 = Vacancy(
 # Преобразование объекта класса Vacancy в словарь
 # vacancy_dict = vacancy.object_to_dict()
 
-# Пример работы с файлами
-# json_saver = JSONSaver()
+# Пример работы с файлами JSON
+json_saver = JSONSaver()
 # json_saver_2 = JSONSaver("user_vacancies.json")
 
-# Сохранение информации о вакансиях в файл
+# Сохранение информации о вакансиях в файл JSON
 # json_saver.add_vacancy(vacancy)
 # json_saver_2.add_vacancy(vacancy_3)
 # json_saver.get_vacancies_from_file()
 # json_saver_2.get_vacancies_from_file()
 # json_saver.delete_vacancy(vacancy)
 # json_saver_2.delete_vacancy(vacancy_3)
+
+# Пример работы с файлами CSV
+csv_saver = CSVSaver()
+# csv_saver_2 = CSVSaver("user_vacancies.csv")
+
+# Сохранение информации о вакансиях в файл CSV
+# csv_saver.add_vacancy(vacancy)
+# csv_saver_2.add_vacancy(vacancy_3)
+# csv_saver.get_vacancies_from_file()
+# csv_saver_2.get_vacancies_from_file()
+# csv_saver.delete_vacancy(vacancy)
+# csv_saver_2.delete_vacancy(vacancy_3)
 
 # Сравнение вакансий по зарплате
 # print(vacancy == vacancy_3)

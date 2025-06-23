@@ -52,11 +52,12 @@ def print_vacancies(vacancy_list: list) -> None:
     """Вывод данных о вакансиях в консоль."""
     if len(vacancy_list) != 0:
         for vacancy in vacancy_list:
-            print(
-                f"""Вакансия: {vacancy.name},
-                зарплата: {vacancy.salary_range},
-                работодатель: {vacancy.employer},
-                график работы: {vacancy.employment}."""
-            )
+            print(vacancy)
+            # print(
+            #     f"""Вакансия: {vacancy.name},
+            #     зарплата: {vacancy.salary_range},
+            #     работодатель: {vacancy.employer},
+            #     график работы: {vacancy.employment}."""
+            # )
     else:
         print("Список вакансий пуст.")

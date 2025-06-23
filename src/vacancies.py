@@ -129,6 +129,13 @@ class Vacancy:
         """Метод настройки хеширования объектов класса Vacancy."""
         return hash((self.vacancy_id, self.name))
 
+    def __str__(self: Any) -> str:
+        """Метод вывода информации о вакансии в консоль."""
+        return f"""Вакансия: {self.name},
+зарплата: {self.salary_range},
+работодатель: {self.employer},
+график работы: {self.employment}."""
+
     @classmethod
     def cast_to_object_list(cls, data: list) -> list:
         """Класс-метод для создания списка объектов вакансий из списка словарей с данными."""
