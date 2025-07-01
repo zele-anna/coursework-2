@@ -16,9 +16,8 @@ class HeadHunterAPI(Parser):
         self.__vacancies: list = []
         # super().__init__(file_worker)
 
-    def _connect(self, keyword: str) -> Any:
+    def _connect(self) -> Any:
         """Приватный метод для подключения к API."""
-        self.__params["text"] = keyword
         while self.__params.get("page") != 20:
             response = requests.get(self.__url, headers=self.__headers, params=self.__params)
             if response.status_code == 200:
@@ -31,8 +30,8 @@ class HeadHunterAPI(Parser):
 
     def get_vacancies(self, keyword: str) -> Any:
         """Метод загрузки данных из API по ключевому слову."""
-        self.__vacancies = self._connect(keyword)
-        # self.__params["text"] = keyword
+        self.__params["text"] = keyword
+        self.__vacancies = self._connect()
         # while self.__params.get("page") != 20:
         #     response = requests.get(self.__url, headers=self.__headers, params=self.__params)
         #     if response.status_code == 200:
@@ -41,6 +40,12 @@ class HeadHunterAPI(Parser):
         #         self.__params["page"] += 1
         #     else:
         #         print(f"Ошибка работы с API, код {response.status_code}")
+        return self.__vacancies
+
+    def get_vacancies_by_employer(self, employers: list) -> Any:
+        """Метод загрузки вакансий из API по списку работодателей."""
+        self.__params["employer_id"] = employers
+        self.__vacancies = self._connect()
         return self.__vacancies
 
     @property
