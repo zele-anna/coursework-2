@@ -5,7 +5,7 @@ class Parser(ABC):
     """Абстрактный класс для работы с API."""
 
     @abstractmethod
-    def _connect(self, keyword: str) -> None:
+    def _connect(self) -> None:
         """Абстрактный метод подключения к API."""
         pass
 

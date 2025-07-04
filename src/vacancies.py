@@ -12,7 +12,8 @@ class Vacancy:
         "salary_from",
         "salary_to",
         "salary_range",
-        "employer",
+        "employer_id",
+        "employer_name",
         "requirement",
         "employment",
         "schedule",
@@ -24,7 +25,8 @@ class Vacancy:
         name: str,
         link: str,
         salary: str | dict,
-        employer: str,
+        employer_id: str,
+        employer_name: str,
         requirement: str,
         employment: str,
         schedule: str,
@@ -45,7 +47,8 @@ class Vacancy:
         self.salary_from: int = int(salary_from)
         self.salary_to: int = int(salary_to)
         self.salary_range: str = salary_range
-        self.employer: str = employer
+        self.employer_id: str = employer_id
+        self.employer_name: str = employer_name
         self.requirement: str = requirement
         self.employment: str = employment
         self.schedule: str = schedule
@@ -133,7 +136,7 @@ class Vacancy:
         """Метод вывода информации о вакансии в консоль."""
         return f"""Вакансия: {self.name},
 зарплата: {self.salary_range},
-работодатель: {self.employer},
+работодатель: {self.employer_name} (id: {self.employer_id}),
 график работы: {self.employment}."""
 
     @classmethod
@@ -149,6 +152,7 @@ class Vacancy:
                 item["name"],
                 item["alternate_url"],
                 item["salary"],
+                item["employer"]["id"],
                 item["employer"]["name"],
                 item["snippet"]["requirement"],
                 item["employment"]["name"],
@@ -166,7 +170,8 @@ class Vacancy:
         vacancy_dict["salary_from"] = self.salary_from
         vacancy_dict["salary_to"] = self.salary_to
         vacancy_dict["salary_range"] = self.salary_range
-        vacancy_dict["employer"] = self.employer
+        vacancy_dict["employer_id"] = self.employer_id
+        vacancy_dict["employer_name"] = self.employer_name
         vacancy_dict["requirement"] = self.requirement
         vacancy_dict["employment"] = self.employment
         vacancy_dict["schedule"] = self.schedule
